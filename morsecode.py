@@ -1,3 +1,5 @@
+import RPi.GPIO as GPIO
+
 def encodeMorseCode(string):
 
     letters = {
@@ -39,10 +41,10 @@ def encodeMorseCode(string):
          '0':	'_____'
      }
 
-    
+
     phrase = []
     for c in string:
-        morse = letters[c]
+        morse = letters[c.upper()]
         print(morse)
         phrase.append(morse)
         print(phrase)
@@ -96,8 +98,7 @@ def decoderMorseCode(string):
     else:
         return ''
 
-
-
-encodeMorseCode('sos')
-
-
+def morseToMotor():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(22,GPIO.OUT)
+    v1 = GPIO.PWM(22,500)
