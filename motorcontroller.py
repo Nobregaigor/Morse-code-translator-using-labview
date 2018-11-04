@@ -15,7 +15,8 @@ def runMotor(dCycle): # Function that vibrates the motor.
 def main(): # Function that sets motor and pin, and vibrates to a phrase.
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(21,GPIO.OUT)
-    vibrateMorseCode('S')
+    vibrateMorseCode('SOS')
+    GPIO.cleanup()
 
 
 def vibrateMorseCode(phrase): # Function vibrates motors to a given phrase.
@@ -35,4 +36,3 @@ def vibrateMorseCode(phrase): # Function vibrates motors to a given phrase.
 
 
 main()
-GPIO.cleanup()
