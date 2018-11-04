@@ -36,7 +36,6 @@ def rewriteFile():
     f.write("")
     f.close()
 
-
 #convert the text file to python language
 def readData(file): # Needs to be a string.
     f = open(file, 'r')
@@ -125,5 +124,5 @@ def processData():
 
     return string
 
-s = processData()
-print(s)
+# s = processData()
+# print(s)
