@@ -56,7 +56,8 @@ def processData():
     Yi = None #time
     Xdash = False
     Xdot = False
-    allowedError = 50
+    allowedError = 8
+    stepChange = 30 #detects a change in freq
     rangeDash = [56.5, 60.5]
     rangeDot = [63, 67]
 
@@ -70,7 +71,14 @@ def processData():
     def absErrorX(Xi, xTrigger):
         return abs(Xi - xTrigger)
 
+    def trigger(bool):
+        if (bool == True):
+            return False
+        else:
+            return True
+
     n = range(len(data))
+    bool = False
     for i in n:
         if i == 0:
             pass
@@ -81,48 +89,58 @@ def processData():
             Xi = data[i][0]
             Yi = data[i][1]
             #check if there is a frequency change
-            if absErrorX(Xi, Xim) <= allowedError:
+            if absErrorX(Xi, Xim) <= stepChange:
                 #check if there is a frequency change that falls under Dash or Dot
-                if (Xi >= rangeDash[0]) and (Xi <= rangeDash[1]):   #0,50,50,51,50,51
+                if (Xi >= rangeDash[0]) and (Xi <= rangeDash[1]) and (absErrorX(Xi, Xim) < allowedError):   #0,50,50,51,50,51
                     # print(i)
                     Xdash = True
-                elif (Xi >= rangeDot[0]) and (Xi <= rangeDot[1]):
+                elif (Xi >= rangeDot[0]) and (Xi <= rangeDot[1]) and (absErrorX(Xi, Xim) < allowedError):
                     Xdot = True
                 else:
                     Xdash = False
                     Xdot = False
 
-            elif absErrorX(Xi, Xim) > allowedError: #Trigger timer 2
+            elif absErrorX(Xi, Xim) > stepChange:
                 timeTrigger = Yi
+                bool = trigger(bool)
+                print('\n' + 'trigger active at line = ' + str(i+1) + ', bool = ' + str(bool) + '; timeTrigger = ' + str(timeTrigger) + '\n')
+
+            yerr = absErrorY(Yi, timeTrigger)
+
+            print('line= ' + str(i + 1) + '; yi = ' + str(Yi) + '; yerr = ' + str(yerr))
 
             #check if it is a signal
-            if (Xdash == True) or (Xdot == True):
-                yerr = absErrorY(Yi, timeTrigger)
-                print('line= ' + str(i + 1) + '; yi = ' + str(Yi) + '; timeTrigger = ' + str(timeTrigger) + '; yerr = ' + str(yerr))
+            if ((Xdash == True) or (Xdot == True)) and (bool == True):
+                # yerr = absErrorY(Yi, timeTrigger)
+                # print('line= ' + str(i + 1) + '; yi = ' + str(Yi) + '; timeTrigger = ' + str(timeTrigger) + '; yerr = ' + str(yerr))
 
                 # if (yerr <= checkTimeError[0]+100) and (yerr >= checkTimeError[0]-100):
                 if (yerr <= checkTimeError[0]+100) and (yerr >= checkTimeError[0]):
                     string = string + "."
-                    print(i)
-                elif (yerr <= checkTimeError[1]+100) and (yerr >= checkTimeError[1]-100):
+                    print('----> adding a dot, found in line = ' + str(i+1) + '\n')
+                elif (yerr <= checkTimeError[1]+100) and (yerr >= checkTimeError[1]):
+                    print('----> adding a dash, found in line = ' + str(i+1) + '\n')
                     string = string + "_"
 
           #if it is not a signal, check only for time
             else:
-                yerr = absErrorY(Yi, timeTrigger) #difference between the nowTime and the last time there was a difference
+                # yerr = absErrorY(Yi, timeTrigger) #difference between the nowTime and the last time there was a difference
                 if (yerr <= checkTimeError[0]+100) and (yerr >= checkTimeError[0]-100):
               #space bewteen parts of the same letter
+                    print("***  Within same character in a word, at line = " + str(i+1))
                     pass
                 elif (yerr <= checkTimeError[1]+100) and (yerr >= checkTimeError[1]-100):
               #space bewteen letters
+                    print("***  Between a character within a word, at line = " + str(i+1))
                     pass
                 elif (yerr <= checkTimeError[2]+100) and (yerr >= checkTimeError[2]-100):
               #space bewteen words
+                    print("***  Space between a word, at line = " + str(i+1))
                     string = string + " "
                 # else:
                 #     string = string + " "*2
 
     return string
 
-# s = processData()
-# print(s)
+s = processData()
+print(s)
