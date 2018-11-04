@@ -10,7 +10,7 @@ def encodeMorseCode(string):
     for c in string:
         morse = letters[c.upper()]
         phrase += morse + space
-    print(phrase)
+    return phrase
 
 
 def decoderMorseCode(letters):
