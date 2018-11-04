@@ -30,7 +30,7 @@ def vibrateMorseCode(phrase): # Function vibrates motors to a given phrase.
         elif c == '_':
             runMotor(70)
             print("_")
-            time.sleep(config.dt)
+            time.sleep(config.dt*2)
         elif c == ',':
             time.sleep(config.dt*2)
         elif c == '%':

@@ -57,7 +57,7 @@ def processData():
     Yi = None #time
     Xdash = False
     Xdot = False
-    allowedError = 2
+    allowedError = 50
     rangeDash = [56.5, 60.5]
     rangeDot = [63, 67]
 
@@ -94,15 +94,18 @@ def processData():
                     Xdot = False
 
             elif absErrorX(Xi, Xim) > allowedError: #Trigger timer 2
-                triggerTime = Yi
-                print(i)
+                timeTrigger = Yi
 
             #check if it is a signal
             if (Xdash == True) or (Xdot == True):
                 yerr = absErrorY(Yi, timeTrigger)
-                if (yerr <= checkTimeError[0]+100) and (absErrorY >= checkTimeError[0]-100):
+                print('line= ' + str(i + 1) + '; yi = ' + str(Yi) + '; timeTrigger = ' + str(timeTrigger) + '; yerr = ' + str(yerr))
+
+                # if (yerr <= checkTimeError[0]+100) and (yerr >= checkTimeError[0]-100):
+                if (yerr <= checkTimeError[0]+100) and (yerr >= checkTimeError[0]):
                     string = string + "."
-                elif (yerr <= checkTimeError[1]+100) and (absErrorY >= checkTimeError[1]-100):
+                    print(i)
+                elif (yerr <= checkTimeError[1]+100) and (yerr >= checkTimeError[1]-100):
                     string = string + "_"
 
           #if it is not a signal, check only for time
@@ -117,8 +120,8 @@ def processData():
                 elif (yerr <= checkTimeError[2]+100) and (yerr >= checkTimeError[2]-100):
               #space bewteen words
                     string = string + " "
-                else:
-                    string = string + " "*5
+                # else:
+                #     string = string + " "*2
 
     return string
 
