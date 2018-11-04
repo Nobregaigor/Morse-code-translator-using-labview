@@ -31,10 +31,11 @@ def writeToFile(data):
 
     return d
 
-
 def rewriteFile():
     f = open("dataFile.txt","w")
     f.write("")
+    f.close()
+
 
 #convert the text file to python language
 def readData(file): # Needs to be a string.
@@ -56,9 +57,9 @@ def processData():
     Yi = None #time
     Xdash = False
     Xdot = False
-    allowedError = 3
-    rangeDash = [50, 55]
-    rangeDot = [70, 75]
+    allowedError = 2
+    rangeDash = [56.5, 60.5]
+    rangeDot = [63, 67]
 
     # newFreq = Xi
     # OldFreq = Xi - 1
@@ -84,6 +85,7 @@ def processData():
             if absErrorX(Xi, Xim) <= allowedError:
                 #check if there is a frequency change that falls under Dash or Dot
                 if (Xi >= rangeDash[0]) and (Xi <= rangeDash[1]):   #0,50,50,51,50,51
+                    # print(i)
                     Xdash = True
                 elif (Xi >= rangeDot[0]) and (Xi <= rangeDot[1]):
                     Xdot = True
@@ -93,6 +95,7 @@ def processData():
 
             elif absErrorX(Xi, Xim) > allowedError: #Trigger timer 2
                 triggerTime = Yi
+                print(i)
 
             #check if it is a signal
             if (Xdash == True) or (Xdot == True):
@@ -119,4 +122,5 @@ def processData():
 
     return string
 
-processData()
+s = processData()
+print(s)
