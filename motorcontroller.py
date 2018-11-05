@@ -28,7 +28,11 @@ def vibrateMorseCode(phrase): # Function vibrates motors to a given phrase.
             print(".")
             time.sleep(config.dt)
         elif c == '_':
+<<<<<<< HEAD
             runMotor(70,config.dt*2)
+=======
+            runMotor(70,config.dt*3)
+>>>>>>> parent of c83608f... deprecate processData current function. added comments and minor changes.
             print("_")
             time.sleep(config.dt)
         elif c == ',':
