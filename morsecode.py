@@ -120,7 +120,7 @@ def processData():
                     string = string + "."
                     print('----> Adding a dot to morse code message, found in line = ' + str(i+1) + '\n')
                     timeTrigger = 0
-                elif ((yerr <= checkTimeError[0]+100) and (yerr >= checkTimeError[0]-100)) and (Xdash == True):
+                elif ((yerr <= checkTimeError[1]+100) and (yerr >= checkTimeError[1]-100)) and (Xdash == True):
                     print('----> Adding a dash to morse code message, found in line = ' + str(i+1) + '\n')
                     string = string + "_"
                     timeTrigger = 0
@@ -147,4 +147,3 @@ def processData():
     return string
 
 s = processData()
-input()
