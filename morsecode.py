@@ -48,7 +48,7 @@ def readData(file): # Needs to be a string.
 
 def processData():
 
-    data = readData("dataFile.txt")
+    data = readData('dataFile.txt')
 
     checkTimeError = [1000, 3000, 7000]
     string = ''
@@ -56,7 +56,7 @@ def processData():
     Yi = None #time
     Xdash = False
     Xdot = False
-    allowedError = 8
+    allowedError = 7
     stepChange = 30 #detects a change in freq
     rangeDash = [56.5, 60.5]
     rangeDot = [63, 67]
@@ -92,9 +92,10 @@ def processData():
             if absErrorX(Xi, Xim) <= stepChange:
                 #check if there is a frequency change that falls under Dash or Dot
                 if (Xi >= rangeDash[0]) and (Xi <= rangeDash[1]) and (absErrorX(Xi, Xim) < allowedError):   #0,50,50,51,50,51
-                    # print(i)
                     Xdash = True
+                    Xdot = False
                 elif (Xi >= rangeDot[0]) and (Xi <= rangeDot[1]) and (absErrorX(Xi, Xim) < allowedError):
+                    Xdash = False
                     Xdot = True
                 else:
                     Xdash = False
@@ -107,7 +108,7 @@ def processData():
 
             yerr = absErrorY(Yi, timeTrigger)
 
-            print('line= ' + str(i + 1) + '; yi = ' + str(Yi) + '; yerr = ' + str(yerr))
+            print('line= ' + str(i + 1) + '; xi = ' + str(Xi) + '; yi = ' + str(Yi) + '; yerr = ' + str(yerr))
 
             #check if it is a signal
             if ((Xdash == True) or (Xdot == True)) and (bool == True):
@@ -115,32 +116,35 @@ def processData():
                 # print('line= ' + str(i + 1) + '; yi = ' + str(Yi) + '; timeTrigger = ' + str(timeTrigger) + '; yerr = ' + str(yerr))
 
                 # if (yerr <= checkTimeError[0]+100) and (yerr >= checkTimeError[0]-100):
-                if (yerr <= checkTimeError[0]+100) and (yerr >= checkTimeError[0]):
+                if ((yerr <= checkTimeError[0]+100) and (yerr >= checkTimeError[0]-100)) and (Xdot == True):
                     string = string + "."
-                    print('----> adding a dot, found in line = ' + str(i+1) + '\n')
-                elif (yerr <= checkTimeError[1]+100) and (yerr >= checkTimeError[1]):
-                    print('----> adding a dash, found in line = ' + str(i+1) + '\n')
+                    print('----> Adding a dot to morse code message, found in line = ' + str(i+1) + '\n')
+                    timeTrigger = 0
+                elif ((yerr <= checkTimeError[0]+100) and (yerr >= checkTimeError[0]-100)) and (Xdash == True):
+                    print('----> Adding a dash to morse code message, found in line = ' + str(i+1) + '\n')
                     string = string + "_"
+                    timeTrigger = 0
 
           #if it is not a signal, check only for time
             else:
                 # yerr = absErrorY(Yi, timeTrigger) #difference between the nowTime and the last time there was a difference
                 if (yerr <= checkTimeError[0]+100) and (yerr >= checkTimeError[0]-100):
               #space bewteen parts of the same letter
-                    print("***  Within same character in a word, at line = " + str(i+1))
+                    print("***** Space within characters in a word, at line = " + str(i+1))
                     pass
                 elif (yerr <= checkTimeError[1]+100) and (yerr >= checkTimeError[1]-100):
               #space bewteen letters
-                    print("***  Between a character within a word, at line = " + str(i+1))
+                    print("***** Space between characters within a word, at line = " + str(i+1))
                     pass
                 elif (yerr <= checkTimeError[2]+100) and (yerr >= checkTimeError[2]-100):
               #space bewteen words
-                    print("***  Space between a word, at line = " + str(i+1))
+                    print("***** Space between a word, at line = " + str(i+1))
                     string = string + " "
                 # else:
                 #     string = string + " "*2
 
+    print("\nMorse code message: %s" % string)
     return string
 
 s = processData()
-print(s)
+input()
