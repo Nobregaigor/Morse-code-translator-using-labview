@@ -1,8 +1,7 @@
 import time
 import config
-#import morseClass
-import json
 
+#translate string to morse code
 def encodeMorseCode(string):
     letters = config.letters
     phrase = ''
@@ -12,32 +11,31 @@ def encodeMorseCode(string):
         phrase += morse + space
     return phrase
 
-
+#translate morse code to letters
 def decoderMorseCode(letters):
-# Function translate LabVIEW
     morseCode = config.morseCode
     if string in morseCode:
         return morseCode[letters]
     else:
         return ''
 
-
+#write data adquired to dataFile
 def writeToFile(data):
     data[1] = int(data[1])
     d = str(data)
     f = open("dataFile.txt","a")
     f.write(d + "\n")
     f.close()
-
     return d
 
+#overwrite dataFile to empty file
 def rewriteFile():
     f = open("dataFile.txt","w")
     f.write("")
     f.close()
 
-#convert the text file to python language
-def readData(file): # Needs to be a string.
+#convert dataFile string data to array data
+def readData(file):
     f = open(file, 'r')
     processedData = []
     for line in f:
@@ -45,7 +43,7 @@ def readData(file): # Needs to be a string.
     f.close()
     return processedData
 
-
+#converts processed data to morse code string to be decoded
 def processData():
 
     data = readData('dataFile.txt')
@@ -60,9 +58,6 @@ def processData():
     stepChange = 30 #detects a change in freq
     rangeDash = [56.5, 60.5]
     rangeDot = [63, 67]
-
-    # newFreq = Xi
-    # OldFreq = Xi - 1
 
     timeTrigger = 0
     def absErrorY(Yi, timeTrigger):
@@ -145,5 +140,3 @@ def processData():
 
     print("\nMorse code message: %s" % string)
     return string
-
-s = processData()
