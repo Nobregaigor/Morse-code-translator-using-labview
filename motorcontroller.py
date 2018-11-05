@@ -23,22 +23,18 @@ def main(): # Function that sets motor and pin, and vibrates to a phrase.
 
 def vibrateMorseCode(phrase): # Function vibrates motors to a given phrase.
     for c in phrase: # c is every character in a phrase.
-        if c == '.':
+        if c == '.': # runMotor for 1 unit, stop for 1 unit
             runMotor(100,config.dt)
             print(".")
             time.sleep(config.dt)
-        elif c == '_':
-<<<<<<< HEAD
-            runMotor(70,config.dt*2)
-=======
-            runMotor(70,config.dt*3)
->>>>>>> parent of c83608f... deprecate processData current function. added comments and minor changes.
+        elif c == '_': # run motor for 3 units, stop for 1 unit
+            runMotor(100,config.dt*3)
             print("_")
             time.sleep(config.dt)
-        elif c == ',':
-            time.sleep(config.dt*3)
-        elif c == '%':
-            time.sleep(config.dt*7)
+        elif c == ',': # stop motor for 2 units (+1 unit from the dot or dash)
+            time.sleep(config.dt*2)
+        elif c == '%': # stop motor for 6 units (+1 unit from the dot or dash)
+            time.sleep(config.dt*6)
         else:
             pass
 
