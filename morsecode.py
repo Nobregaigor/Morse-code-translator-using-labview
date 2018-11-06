@@ -176,7 +176,7 @@ def decodeRawMorseCode(string):
 # =============================================================================
 
 # print(readData(config.dataFile))
-# print(processData(readData(config.dataFile)))
+# print(decodeRawMorseCode(processData(readData(config.dataFile))))
 
 
 # pData = processData2(readData("dataFile.txt"))
