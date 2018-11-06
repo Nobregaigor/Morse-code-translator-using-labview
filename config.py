@@ -1,4 +1,4 @@
-dt = 1.00
+dt = 0.75
 dataFile = "dataFile.txt"
 
 letters = {

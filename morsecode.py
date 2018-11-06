@@ -1,6 +1,6 @@
 import time
 import config
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 #translate string to morse code
 def encodeMorseCode(string):
@@ -47,10 +47,12 @@ def readData(file): # Needs to be a string.
 #converts processed data to morse code string to be decoded
 def processData(data):
 
+    threshold = 60
+
     def normalizeData(data):
         n = range(len(data))
         for i in n:
-            if (data[i][0] > 10): #high pass filter if necessary
+            if (data[i][0] > threshold): #high pass filter if necessary
                 data[i][0] = 1
             else:
                 data[i][0] = 0
@@ -66,12 +68,12 @@ def processData(data):
         data = {"x": datax, "y": datay}
         return data
 
-    uncertainty = 260
-    dotArea = 1000
-    dashArea = 2000 # this should be adjusted for 3000
-    withinCharacter = -1000
-    betweenCharacter = -3600 #this should be adjusted for -3000 at the end
-    btweenWords = -7000
+    uncertainty = config.dt*260
+    dotArea = config.dt*1000
+    dashArea = config.dt*3000
+    withinCharacter = config.dt*(-1000)
+    betweenCharacter = config.dt*(-3000)
+    btweenWords = config.dt*(-7000)
 
     def checkValue(val):
         if (val > 0): # positive change -> dot or dash
@@ -151,8 +153,8 @@ def processData(data):
                 sq['x'][1] = xb
                 sq['y'][1] = yb
 
-    # plt.plot(data['x'],data['y'])
-    # plt.show()
+    plt.plot(data['x'],data['y'])
+    plt.show()  # This will run alongside myDAQ, make sure to comment out for code to run fast
     return string
 
 #decodes morse code string to regular string
@@ -176,7 +178,7 @@ def decodeRawMorseCode(string):
 # =============================================================================
 
 # print(readData(config.dataFile))
-# print(decodeRawMorseCode(processData(readData(config.dataFile))))
+# print(processData(readData(config.dataFile)))
 
 
 # pData = processData2(readData("dataFile.txt"))
