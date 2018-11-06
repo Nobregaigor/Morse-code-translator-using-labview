@@ -1,6 +1,6 @@
 import time
 import config
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 #translate string to morse code
 def encodeMorseCode(string):
@@ -24,14 +24,14 @@ def decoderMorseCode(key):
 def writeToFile(data):
     data[1] = int(data[1])
     d = str(data)
-    f = open("dataFile.txt","a")
+    f = open(config.dataFile,"a")
     f.write(d + "\n")
     f.close()
     return d
 
 #overwrite dataFile to empty file
 def rewriteFile():
-    f = open("dataFile.txt","w")
+    f = open(config.dataFile,"w")
     f.write("")
     f.close()
 
@@ -151,8 +151,8 @@ def processData(data):
                 sq['x'][1] = xb
                 sq['y'][1] = yb
 
-    plt.plot(data['x'],data['y'])
-    plt.show()
+    # plt.plot(data['x'],data['y'])
+    # plt.show()
     return string
 
 #decodes morse code string to regular string
@@ -175,10 +175,14 @@ def decodeRawMorseCode(string):
 
 # =============================================================================
 
-pData = processData2(readData("dataFile.txt"))
-result = decodeRawMorseCode(pData)
+# print(readData(config.dataFile))
+# print(processData(readData(config.dataFile)))
 
-print("__________________________________________________________________\n")
-print("processed Data result: " + pData)
-print("therefore, the translated result is: " + result)
-print("__________________________________________________________________\n\n")
+
+# pData = processData2(readData("dataFile.txt"))
+# result = decodeRawMorseCode(pData)
+#
+# print("__________________________________________________________________\n")
+# print("processed Data result: " + pData)
+# print("therefore, the translated result is: " + result)
+# print("__________________________________________________________________\n\n")

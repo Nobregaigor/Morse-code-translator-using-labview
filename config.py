@@ -1,4 +1,5 @@
 dt = 1.00
+dataFile = "dataFile.txt"
 
 letters = {
      'A':   '._',
