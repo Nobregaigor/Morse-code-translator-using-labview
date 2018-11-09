@@ -15,9 +15,18 @@ def runMotor(dCycle,dt): # Function that vibrates the motor.
 def main(): # Function that sets motor and pin, and vibrates to a phrase.
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(21,GPIO.OUT)
-    p = morsecode.encodeMorseCode("SOS")
-    print(p)
+    print("Hello!")
+    message = input("What message you want to morsify?")
+    p = morsecode.encodeMorseCode(str(message))
+    print("Thank you. This is your message in morse code: '" + str(p) + "'")
+    for i in range(3):
+        print("Initializing transmission in: " + str(i) + " s")
+        time.sleep(1)
+
+    print("Tranfmission:")
     vibrateMorseCode(p)
+    print("End of transmission")
+    print("Have a good day!")
     GPIO.cleanup()
 
 
@@ -26,15 +35,15 @@ def vibrateMorseCode(phrase): # Function vibrates motors to a given phrase.
         if c == '.': # runMotor for 1 unit, stop for 1 unit
             runMotor(100,config.dt)
             print(".")
-            time.sleep(config.dt)
+            time.sleep(config.dt*1.7)
         elif c == '_': # run motor for 3 units, stop for 1 unit
             runMotor(100,config.dt*3)
             print("_")
-            time.sleep(config.dt)
+            time.sleep(config.dt*1.7)
         elif c == ',': # stop motor for 2 units (+1 unit from the dot or dash)
-            time.sleep(config.dt*2)
+            time.sleep(config.dt*2.5)
         elif c == '%': # stop motor for 6 units (+1 unit from the dot or dash)
-            time.sleep(config.dt*6)
+            time.sleep(config.dt*6.6)
         else:
             pass
 

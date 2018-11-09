@@ -47,7 +47,7 @@ def readData(file): # Needs to be a string.
 #converts processed data to morse code string to be decoded
 def processData(data):
 
-    threshold = 60
+    threshold = 50
 
     def normalizeData(data):
         n = range(len(data))
@@ -68,10 +68,10 @@ def processData(data):
         data = {"x": datax, "y": datay}
         return data
 
-    uncertainty = config.dt*260
+    uncertainty = config.dt*600
     dotArea = config.dt*1000
     dashArea = config.dt*3000
-    withinCharacter = config.dt*(-1000)
+    withinCharacter = config.dt*(-1000) #should be -1000, but because of motor dynamics its less
     betweenCharacter = config.dt*(-3000)
     btweenWords = config.dt*(-7000)
 
@@ -86,7 +86,7 @@ def processData(data):
         else:
             if ((withinCharacter - uncertainty) <= val <= (withinCharacter + uncertainty)):
                 pass
-            elif ((betweenCharacter - uncertainty) <= val <= (betweenCharacter + uncertainty)):
+            elif ((betweenCharacter - uncertainty*1.5) <= val <= (betweenCharacter + uncertainty)):
                 return " "
             elif (btweenWords - uncertainty) <= val <= (btweenWords + uncertainty):
                 return "  "
@@ -153,8 +153,8 @@ def processData(data):
                 sq['x'][1] = xb
                 sq['y'][1] = yb
 
-    plt.plot(data['x'],data['y'])
-    plt.show()  # This will run alongside myDAQ, make sure to comment out for code to run fast
+    # plt.plot(data['x'],data['y'])
+    # plt.show()  # This will run alongside myDAQ, make sure to comment out for code to run fast
     return string
 
 #decodes morse code string to regular string
@@ -175,13 +175,19 @@ def decodeRawMorseCode(string):
 
     return phrase
 
+
+
+def pdLabview():
+    val = decodeRawMorseCode(processData(readData(config.dataFile)))
+    return val
+
 # =============================================================================
 
 # print(readData(config.dataFile))
 # print(processData(readData(config.dataFile)))
 
 
-# pData = processData2(readData("dataFile.txt"))
+# pData = processData(readData(config.dataFile))
 # result = decodeRawMorseCode(pData)
 #
 # print("__________________________________________________________________\n")
