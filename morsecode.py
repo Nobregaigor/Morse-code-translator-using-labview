@@ -187,10 +187,10 @@ def pdLabview():
 # print(processData(readData(config.dataFile)))
 
 
-# pData = processData(readData(config.dataFile))
-# result = decodeRawMorseCode(pData)
-#
-# print("__________________________________________________________________\n")
-# print("processed Data result: " + pData)
-# print("therefore, the translated result is: " + result)
-# print("__________________________________________________________________\n\n")
+pData = processData(readData(config.dataFile))
+result = decodeRawMorseCode(pData)
+
+print("__________________________________________________________________\n")
+print("processed Data result: " + pData)
+print("therefore, the translated result is: " + result)
+print("__________________________________________________________________\n\n")

@@ -18,14 +18,14 @@ def main(): # Function that sets motor and pin, and vibrates to a phrase.
     print("Hello!")
     message = input("What message you want to morsify?")
     p = morsecode.encodeMorseCode(str(message))
-    print("Thank you. This is your message in morse code: '" + str(p) + "'")
+    print("Thank you. This is your message in morse code: '" + str(p) + "'\n")
     for i in range(3):
         print("Initializing transmission in: " + str(i) + " s")
         time.sleep(1)
 
     print("Tranfmission:")
     vibrateMorseCode(p)
-    print("End of transmission")
+    print("End of transmission.")
     print("Have a good day!")
     GPIO.cleanup()
 
