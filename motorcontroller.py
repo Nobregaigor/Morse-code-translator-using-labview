@@ -43,7 +43,7 @@ def vibrateMorseCode(phrase): # Function vibrates motors to a given phrase.
         elif c == ',': # stop motor for 2 units (+1 unit from the dot or dash)
             time.sleep(config.dt*2.5)
         elif c == '%': # stop motor for 6 units (+1 unit from the dot or dash)
-            time.sleep(config.dt*6.6)
+            time.sleep(config.dt*1.1)
         else:
             pass
 

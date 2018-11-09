@@ -73,7 +73,7 @@ def processData(data):
     dashArea = config.dt*3000
     withinCharacter = config.dt*(-1000) #should be -1000, but because of motor dynamics its less
     betweenCharacter = config.dt*(-3000)
-    btweenWords = config.dt*(-7000)
+    betweenWords = config.dt*(-7000)
 
     def checkValue(val):
         if (val > 0): # positive change -> dot or dash
@@ -88,9 +88,12 @@ def processData(data):
                 pass
             elif ((betweenCharacter - uncertainty*1.5) <= val <= (betweenCharacter + uncertainty)):
                 return " "
-            elif (btweenWords - uncertainty) <= val <= (btweenWords + uncertainty):
+            elif (betweenWords - uncertainty*1.5) <= val <= (betweenWords + uncertainty*1.5):
                 return "  "
             else:
+                print("min range = " + str(betweenWords - uncertainty*3))
+                print("max range = " + str(betweenWords + uncertainty*3))
+                print("***NOT IN RANGE***")
                 pass
 
     data = normalizeData(data)
